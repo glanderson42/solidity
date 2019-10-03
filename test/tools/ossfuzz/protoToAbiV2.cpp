@@ -671,10 +671,15 @@ pair<string, string> AssignCheckVisitor::visit(ArrayType const& _type)
 		return make_pair("", "");
 
 	string typeStr{};
+	unsigned structStart = 0;
 	if (m_structField)
-		typeStr = TypeVisitor(m_structCounter + 1).visit(_type);
+		structStart = m_structCounter + 1;
 	else
-		typeStr = TypeVisitor(m_structCounter).visit(_type);
+		structStart = m_structCounter;
+
+	TypeVisitor tVisitor(structStart);
+	typeStr = tVisitor.visit(_type);
+	m_structCounter += tVisitor.numStructs();
 
 	pair<string, string> resizeBuffer;
 	string lengthStr;
