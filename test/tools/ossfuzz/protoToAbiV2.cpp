@@ -747,7 +747,6 @@ pair<string, string> AssignCheckVisitor::visit(StructType const& _type)
 {
 	pair<string, string> assignCheckBuffer;
 	unsigned i = 0;
-	m_structCounter++;
 	for (auto const& t: _type.t())
 	{
 		AssignCheckVisitor acVisitor(
@@ -771,6 +770,7 @@ pair<string, string> AssignCheckVisitor::visit(StructType const& _type)
 		assignCheckBuffer.second += assign.second;
 		i++;
 	}
+	m_structCounter++;
 	return assignCheckBuffer;
 }
 
