@@ -523,7 +523,8 @@ public:
 		unsigned _errorStart,
 		bool _stateVar,
 		unsigned _counter,
-		unsigned _structCounter
+		unsigned _structCounter,
+		bool _structField = false
 	)
 	{
 		m_counter = m_counterStart = _counter;
@@ -533,7 +534,7 @@ public:
 		m_indentation = 2;
 		m_stateVar = _stateVar;
 		m_structCounter = m_structStart = _structCounter;
-		m_structField = false;
+		m_structField = _structField;
 	}
 	std::pair<std::string, std::string> visit(BoolType const&) override;
 	std::pair<std::string, std::string> visit(IntegerType const&) override;

@@ -747,17 +747,16 @@ pair<string, string> AssignCheckVisitor::visit(StructType const& _type)
 {
 	pair<string, string> assignCheckBuffer;
 	unsigned i = 0;
-	bool wasStructField = m_structField;
 	for (auto const& t: _type.t())
 	{
-		m_structField = true;
 		AssignCheckVisitor acVisitor(
 			m_varName + ".m" + to_string(i),
 			m_paramName + ".m" + to_string(i),
 			m_errorCode,
 			m_stateVar,
 			m_counter,
-			m_structCounter
+			m_structCounter,
+			true
 		);
 		pair<string, string> assign = acVisitor.visit(t);
 		// If type is not well formed continue without
@@ -771,7 +770,6 @@ pair<string, string> AssignCheckVisitor::visit(StructType const& _type)
 		assignCheckBuffer.second += assign.second;
 		i++;
 	}
-	m_structField = wasStructField;
 	m_structCounter++;
 	return assignCheckBuffer;
 }
