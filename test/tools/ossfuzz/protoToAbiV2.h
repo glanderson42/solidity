@@ -533,6 +533,7 @@ public:
 		m_indentation = 2;
 		m_stateVar = _stateVar;
 		m_structCounter = m_structStart = _structCounter;
+		m_structField = false;
 	}
 	std::pair<std::string, std::string> visit(BoolType const&) override;
 	std::pair<std::string, std::string> visit(IntegerType const&) override;
@@ -586,6 +587,7 @@ private:
 	bool m_stateVar;
 	unsigned m_structCounter;
 	unsigned m_structStart;
+	bool m_structField;
 };
 
 /// Returns a valid value (as a string) for a given type.

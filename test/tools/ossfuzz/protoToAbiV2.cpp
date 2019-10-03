@@ -671,7 +671,7 @@ pair<string, string> AssignCheckVisitor::visit(ArrayType const& _type)
 		return make_pair("", "");
 
 	string typeStr{};
-	if (TypeVisitor::arrayOfStruct(_type))
+	if (m_structField)
 		typeStr = TypeVisitor(m_structCounter + 1).visit(_type);
 	else
 		typeStr = TypeVisitor(m_structCounter).visit(_type);
@@ -747,8 +747,10 @@ pair<string, string> AssignCheckVisitor::visit(StructType const& _type)
 {
 	pair<string, string> assignCheckBuffer;
 	unsigned i = 0;
+	bool wasStructField = m_structField;
 	for (auto const& t: _type.t())
 	{
+		m_structField = true;
 		AssignCheckVisitor acVisitor(
 			m_varName + ".m" + to_string(i),
 			m_paramName + ".m" + to_string(i),
@@ -769,6 +771,7 @@ pair<string, string> AssignCheckVisitor::visit(StructType const& _type)
 		assignCheckBuffer.second += assign.second;
 		i++;
 	}
+	m_structField = wasStructField;
 	m_structCounter++;
 	return assignCheckBuffer;
 }
