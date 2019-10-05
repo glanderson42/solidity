@@ -184,7 +184,7 @@ Statement Parser::parseStatement()
 
 		while (true)
 		{
-			if (elementary.type() != typeid(Identifier))
+			if (typeid(elementary) != typeid(Identifier))
 			{
 				auto const token = currentToken() == Token::Comma ? "," : ":=";
 
@@ -196,7 +196,7 @@ Statement Parser::parseStatement()
 				);
 			}
 
-			auto const& identifier = boost::get<Identifier>(elementary);
+			auto const& identifier = std::get<Identifier>(elementary);
 
 			if (m_dialect.builtin(identifier.name))
 				fatalParserError("Cannot assign to builtin function \"" + identifier.name.str() + "\".");
@@ -212,7 +212,7 @@ Statement Parser::parseStatement()
 		}
 
 		Assignment assignment =
-			createWithLocation<Assignment>(boost::get<Identifier>(elementary).location);
+			createWithLocation<Assignment>(std::get<Identifier>(elementary).location);
 		assignment.variableNames = std::move(variableNames);
 
 		expectToken(Token::AssemblyAssign);
@@ -224,10 +224,10 @@ Statement Parser::parseStatement()
 	}
 	case Token::Colon:
 	{
-		if (elementary.type() != typeid(Identifier))
+		if (typeid(elementary) != typeid(Identifier))
 			fatalParserError("Label name must precede \":\".");
 
-		Identifier const& identifier = boost::get<Identifier>(elementary);
+		Identifier const& identifier = std::get<Identifier>(elementary);
 
 		advance();
 
@@ -245,20 +245,20 @@ Statement Parser::parseStatement()
 		break;
 	}
 
-	if (elementary.type() == typeid(Identifier))
+	if (typeid(elementary) == typeid(Identifier))
 	{
-		Identifier& identifier = boost::get<Identifier>(elementary);
+		Identifier& identifier = std::get<Identifier>(elementary);
 		return ExpressionStatement{identifier.location, { move(identifier) }};
 	}
-	else if (elementary.type() == typeid(Literal))
+	else if (typeid(elementary) == typeid(Literal))
 	{
-		Expression expr = boost::get<Literal>(elementary);
+		Expression expr = std::get<Literal>(elementary);
 		return ExpressionStatement{locationOf(expr), expr};
 	}
 	else
 	{
-		solAssert(elementary.type() == typeid(Instruction), "Invalid elementary operation.");
-		return boost::get<Instruction>(elementary);
+		solAssert(typeid(elementary) == typeid(Instruction), "Invalid elementary operation.");
+		return std::get<Instruction>(elementary);
 	}
 }
 
@@ -272,9 +272,9 @@ Case Parser::parseCase()
 	{
 		advance();
 		ElementaryOperation literal = parseElementaryOperation();
-		if (literal.type() != typeid(Literal))
+		if (typeid(literal) != typeid(Literal))
 			fatalParserError("Literal expected.");
-		_case.value = make_unique<Literal>(boost::get<Literal>(std::move(literal)));
+		_case.value = make_unique<Literal>(std::get<Literal>(std::move(literal)));
 	}
 	else
 		solAssert(false, "Case or default case expected.");
@@ -311,12 +311,12 @@ Expression Parser::parseExpression()
 	RecursionGuard recursionGuard(*this);
 
 	ElementaryOperation operation = parseElementaryOperation();
-	if (operation.type() == typeid(FunctionCall))
+	if (typeid(operation) == typeid(FunctionCall))
 		return parseCall(std::move(operation));
-	else if (operation.type() == typeid(Instruction))
+	else if (typeid(operation) == typeid(Instruction))
 	{
 		solAssert(m_dialect.flavour == AsmFlavour::Loose, "");
-		Instruction const& instr = boost::get<Instruction>(operation);
+		Instruction const& instr = std::get<Instruction>(operation);
 		// Disallow instructions returning multiple values (and DUP/SWAP) as expression.
 		if (
 			instructionInfo(instr.instruction).ret != 1 ||
@@ -345,19 +345,19 @@ Expression Parser::parseExpression()
 	}
 	if (currentToken() == Token::LParen)
 		return parseCall(std::move(operation));
-	else if (operation.type() == typeid(Instruction))
+	else if (typeid(operation) == typeid(Instruction))
 	{
 		// Instructions not taking arguments are allowed as expressions.
 		solAssert(m_dialect.flavour == AsmFlavour::Loose, "");
-		Instruction& instr = boost::get<Instruction>(operation);
+		Instruction& instr = std::get<Instruction>(operation);
 		return FunctionalInstruction{std::move(instr.location), instr.instruction, {}};
 	}
-	else if (operation.type() == typeid(Identifier))
-		return boost::get<Identifier>(operation);
+	else if (typeid(operation) == typeid(Identifier))
+		return std::get<Identifier>(operation);
 	else
 	{
-		solAssert(operation.type() == typeid(Literal), "");
-		return boost::get<Literal>(operation);
+		solAssert(typeid(operation) == typeid(Literal), "");
+		return std::get<Literal>(operation);
 	}
 }
 
@@ -537,10 +537,10 @@ FunctionDefinition Parser::parseFunctionDefinition()
 Expression Parser::parseCall(Parser::ElementaryOperation&& _initialOp)
 {
 	RecursionGuard recursionGuard(*this);
-	if (_initialOp.type() == typeid(Instruction))
+	if (typeid(_initialOp) == typeid(Instruction))
 	{
 		solAssert(m_dialect.flavour != AsmFlavour::Yul, "Instructions are invalid in Yul");
-		Instruction& instruction = boost::get<Instruction>(_initialOp);
+		Instruction& instruction = std::get<Instruction>(_initialOp);
 		FunctionalInstruction ret;
 		ret.instruction = instruction.instruction;
 		ret.location = std::move(instruction.location);
@@ -591,16 +591,16 @@ Expression Parser::parseCall(Parser::ElementaryOperation&& _initialOp)
 		expectToken(Token::RParen);
 		return ret;
 	}
-	else if (_initialOp.type() == typeid(Identifier) || _initialOp.type() == typeid(FunctionCall))
+	else if (typeid(_initialOp) == typeid(Identifier) || typeid(_initialOp) == typeid(FunctionCall))
 	{
 		FunctionCall ret;
-		if (_initialOp.type() == typeid(Identifier))
+		if (typeid(_initialOp) == typeid(Identifier))
 		{
-			ret.functionName = std::move(boost::get<Identifier>(_initialOp));
+			ret.functionName = std::move(std::get<Identifier>(_initialOp));
 			ret.location = ret.functionName.location;
 		}
 		else
-			ret = std::move(boost::get<FunctionCall>(_initialOp));
+			ret = std::move(std::get<FunctionCall>(_initialOp));
 		expectToken(Token::LParen);
 		if (currentToken() != Token::RParen)
 		{

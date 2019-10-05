@@ -76,14 +76,14 @@ IRStorageItem::IRStorageItem(
 IRStorageItem::IRStorageItem(
 	YulUtilFunctions _utils,
 	string _slot,
-	boost::variant<string, unsigned> _offset,
+	std::variant<string, unsigned> _offset,
 	Type const& _type
 ):
 	IRLValue(std::move(_utils), &_type),
 	m_slot(std::move(_slot)),
 	m_offset(std::move(_offset))
 {
-	solAssert(!m_offset.empty(), "");
+	//solAssert(!m_offset.empty(), "");
 	solAssert(!m_slot.empty(), "");
 }
 
@@ -92,17 +92,17 @@ string IRStorageItem::retrieveValue() const
 	if (!m_type->isValueType())
 		return m_slot;
 	solUnimplementedAssert(m_type->category() != Type::Category::Function, "");
-	if (m_offset.type() == typeid(string))
+	if (typeid(m_offset) == typeid(string))
 		return
 			m_utils.readFromStorageDynamic(*m_type, false) +
 			"(" +
 			m_slot +
 			", " +
-			boost::get<string>(m_offset) +
+			std::get<string>(m_offset) +
 			")";
-	else if (m_offset.type() == typeid(unsigned))
+	else if (typeid(m_offset) == typeid(unsigned))
 		return
-			m_utils.readFromStorage(*m_type, boost::get<unsigned>(m_offset), false) +
+			m_utils.readFromStorage(*m_type, std::get<unsigned>(m_offset), false) +
 			"(" +
 			m_slot +
 			")";
@@ -117,15 +117,15 @@ string IRStorageItem::storeValue(string const& _value, Type const& _sourceType) 
 
 	boost::optional<unsigned> offset;
 
-	if (m_offset.type() == typeid(unsigned))
-		offset = get<unsigned>(m_offset);
+	if (typeid(m_offset) == typeid(unsigned))
+		offset = std::get<unsigned>(m_offset);
 
 	return
 		m_utils.updateStorageValueFunction(*m_type, offset) +
 		"(" +
 		m_slot +
-		(m_offset.type() == typeid(string) ?
-			(", " + get<string>(m_offset)) :
+		(typeid(m_offset) == typeid(string) ?
+			(", " + std::get<string>(m_offset)) :
 			""
 		) +
 		", " +
@@ -141,9 +141,9 @@ string IRStorageItem::setToZero() const
 		m_slot +
 		", " +
 		(
-			m_offset.type() == typeid(unsigned) ?
+			typeid(m_offset) == typeid(unsigned) ?
 				to_string(get<unsigned>(m_offset)) :
-				get<string>(m_offset)
+				std::get<string>(m_offset)
 		) +
 		")\n";
 }

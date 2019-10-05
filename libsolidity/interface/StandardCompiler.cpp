@@ -430,7 +430,7 @@ boost::optional<Json::Value> checkOutputSelection(Json::Value const& _outputSele
 }
 /// Validates the optimizer settings and returns them in a parsed object.
 /// On error returns the json-formatted error message.
-boost::variant<OptimiserSettings, Json::Value> parseOptimizerSettings(Json::Value const& _jsonInput)
+std::variant<OptimiserSettings, Json::Value> parseOptimizerSettings(Json::Value const& _jsonInput)
 {
 	if (auto result = checkOptimizerKeys(_jsonInput))
 		return *result;
@@ -490,7 +490,7 @@ boost::variant<OptimiserSettings, Json::Value> parseOptimizerSettings(Json::Valu
 
 }
 
-boost::variant<StandardCompiler::InputsAndSettings, Json::Value> StandardCompiler::parseInput(Json::Value const& _input)
+std::variant<StandardCompiler::InputsAndSettings, Json::Value> StandardCompiler::parseInput(Json::Value const& _input)
 {
 	InputsAndSettings ret;
 
@@ -657,10 +657,10 @@ boost::variant<StandardCompiler::InputsAndSettings, Json::Value> StandardCompile
 	if (settings.isMember("optimizer"))
 	{
 		auto optimiserSettings = parseOptimizerSettings(settings["optimizer"]);
-		if (optimiserSettings.type() == typeid(Json::Value))
-			return boost::get<Json::Value>(std::move(optimiserSettings)); // was an error
+		if (typeid(optimiserSettings) == typeid(Json::Value))
+			return std::get<Json::Value>(std::move(optimiserSettings)); // was an error
 		else
-			ret.optimiserSettings = boost::get<OptimiserSettings>(std::move(optimiserSettings));
+			ret.optimiserSettings = std::get<OptimiserSettings>(std::move(optimiserSettings));
 	}
 
 	Json::Value jsonLibraries = settings.get("libraries", Json::Value(Json::objectValue));
@@ -1042,9 +1042,9 @@ Json::Value StandardCompiler::compile(Json::Value const& _input) noexcept
 	try
 	{
 		auto parsed = parseInput(_input);
-		if (parsed.type() == typeid(Json::Value))
-			return boost::get<Json::Value>(std::move(parsed));
-		InputsAndSettings settings = boost::get<InputsAndSettings>(std::move(parsed));
+		if (typeid(parsed) == typeid(Json::Value))
+			return std::get<Json::Value>(std::move(parsed));
+		InputsAndSettings settings = std::get<InputsAndSettings>(std::move(parsed));
 		if (settings.language == "Solidity")
 			return compileSolidity(std::move(settings));
 		else if (settings.language == "Yul")
