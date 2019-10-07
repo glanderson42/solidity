@@ -1,0 +1,13 @@
+# Target labels
+ jsoncpp-project
+# Source files and their labels
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/CMakeFiles/jsoncpp-project
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/CMakeFiles/jsoncpp-project.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/CMakeFiles/jsoncpp-project-complete.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/src/jsoncpp-project-stamp/jsoncpp-project-install.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/src/jsoncpp-project-stamp/jsoncpp-project-mkdir.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/src/jsoncpp-project-stamp/jsoncpp-project-download.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/src/jsoncpp-project-stamp/jsoncpp-project-update.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/src/jsoncpp-project-stamp/jsoncpp-project-patch.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/src/jsoncpp-project-stamp/jsoncpp-project-configure.rule
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/src/jsoncpp-project-stamp/jsoncpp-project-build.rule

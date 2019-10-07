@@ -1,0 +1,12 @@
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/lib/libjsoncpp.a
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/allocator.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/assertions.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/autolink.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/config.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/features.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/forwards.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/json.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/reader.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/value.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/version.h
+/home/glanderson/hdd/projects/solidity/cmake-build-debug/deps/include/json/writer.h

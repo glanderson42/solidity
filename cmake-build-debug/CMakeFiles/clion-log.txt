@@ -1,0 +1,69 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/glanderson/hdd/projects/solidity
+-- The C compiler identification is GNU 9.1.0
+-- The CXX compiler identification is GNU 9.1.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Check if the system is big endian
+-- Searching 16 bit integer
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of unsigned short
+-- Check size of unsigned short - done
+-- Using unsigned short
+-- Check if the system is big endian - little endian
+-- Found Boost headers in 
+-- Found Boost::regex at /usr/lib/libboost_regex.a
+-- Found Boost::filesystem at /usr/lib/libboost_filesystem.a
+-- Found Boost::unit_test_framework at /usr/lib/libboost_unit_test_framework.a
+-- Found Boost::program_options at /usr/lib/libboost_program_options.a
+-- Found Boost::system at /usr/lib/libboost_system.a
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Performing Test fstack-protector-strong
+-- Performing Test fstack-protector-strong - Success
+-- Performing Test Wimplicit-fallthrough
+-- Performing Test Wimplicit-fallthrough - Success
+-- Performing Test fmacro-prefix-map=homeglandersonhddprojectssolidity=solidity
+-- Performing Test fmacro-prefix-map=homeglandersonhddprojectssolidity=solidity - Success
+
+------------------------------------------------------------------------
+-- Configuring solidity 0.5.13
+------------------------------------------------------------------------
+--                  CMake Version                            3.15.2
+-- CMAKE_BUILD_TYPE Build type                               Debug
+-- TARGET_PLATFORM  Target platform                          Linux
+--------------------------------------------------------------- features
+-- COVERAGE         Coverage support                         OFF
+------------------------------------------------------------- components
+-- TESTS            Build tests                              ON
+------------------------------------------------------------------ flags
+-- OSSFUZZ                                                   OFF
+-- LLL                                                       OFF
+------------------------------------------------------------------------
+
+-- Could NOT find Z3 (missing: Z3_LIBRARY Z3_INCLUDE_DIR) (Required is at least version "4.6.0")
+CVC4 SMT solver found. This enables optional SMT checking with CVC4.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/glanderson/hdd/projects/solidity/cmake-build-debug
