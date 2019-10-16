@@ -25,8 +25,7 @@
 
 #include <libdevcore/Common.h>
 
-#include <boost/optional.hpp>
-
+#include <optional>
 #include <vector>
 #include <type_traits>
 #include <cstring>
@@ -277,7 +276,7 @@ void iterateReplacing(std::vector<T>& _vector, F const& _f)
 	std::vector<T> modifiedVector;
 	for (size_t i = 0; i < _vector.size(); ++i)
 	{
-		if (boost::optional<std::vector<T>> r = _f(_vector[i]))
+		if (std::optional<std::vector<T>> r = _f(_vector[i]))
 		{
 			if (!useModified)
 			{
@@ -305,7 +304,7 @@ void iterateReplacingWindow(std::vector<T>& _vector, F const& _f, std::index_seq
 	size_t i = 0;
 	for (; i + sizeof...(I) <= _vector.size(); ++i)
 	{
-		if (boost::optional<std::vector<T>> r = _f(_vector[i + I]...))
+		if (std::optional<std::vector<T>> r = _f(_vector[i + I]...))
 		{
 			if (!useModified)
 			{
